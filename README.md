@@ -3,7 +3,7 @@
 Physics-based troposcatter/ducting prediction for **5G n41 (2496–2690 MHz)** and amateur radio propagation.
 
 ## Live Tool
-**[cre8lab.github.io/ducting-forecast](https://cre8lab.github.io/ducting-forecast)**
+**[siftforward.github.io/ducting-forecast](https://siftforward.github.io/ducting-forecast)**
 
 ## What it does
 - Fetches **NOAA GFS** vertical profile data (temperature, dewpoint, pressure vs. altitude)
@@ -34,12 +34,12 @@ No API key required. No backend server needed.
 git init
 git add index.html README.md
 git commit -m "Initial deploy"
-git remote add origin https://github.com/cre8lab/ducting-forecast.git
+git remote add origin https://github.com/SiftForward/ducting-forecast.git
 git push -u origin main
 ```
 Then in your GitHub repo: **Settings → Pages → Source: main branch → Save**
 
-Your site will be live at `https://cre8lab.github.io/ducting-forecast/`
+Your site will be live at `https://siftforward.github.io/ducting-forecast/`
 
 ---
 *KD9WXY — Licensed Amateur Radio Operator*

@@ -233,7 +233,7 @@ function interferenceRisk(ducts,profile){
     return{score:s,level:'low',description:'',n41_ducts:0,best_duct:null};
   }
   const best=n41.reduce((a,b)=>a.delta_M>b.delta_M?a:b);
-  const rawScore=Math.min(40,Math.round(best.delta_M*4))+Math.min(30,Math.round(best.max_hop_km/15))+(best.duct_type==='surface'?20:10);
+  const rawScore=Math.min(60,Math.round(best.delta_M*4))+Math.min(30,Math.round(best.max_hop_km/15))+(best.duct_type==='surface'?20:10);
   const score=Math.min(100,rawScore+Math.round(srProxy*0.3));
   const level=score>=80?'severe':score>=55?'high':score>=30?'moderate':'low';
   return{score,level,description:'',n41_ducts:n41.length,best_duct:best};
@@ -369,7 +369,7 @@ let animTimer = null;
 let frameMs = 500;
 let currentMode = 'gfs';  // 'gfs' | 'era5'
 
-function glCacheKey(){return`kd9wxy_gl_v4_${currentMode}_${new Date().toISOString().split('T')[0]}`}
+function glCacheKey(){return`kd9wxy_gl_v5_${currentMode}_${new Date().toISOString().split('T')[0]}`}
 const GL_TTL = 30*60*1000;
 
 function loadGLCache(){
@@ -416,7 +416,7 @@ async function loadGLData(){
     document.getElementById('load-title').textContent='Loading ERA5 historical ducting data…';
   } else {
     fetchFn=(lat,lon)=>fetchRawOM(lat,lon);
-    document.getElementById('load-title').textContent='Loading Great Lakes ducting data…';
+    document.getElementById('load-title').textContent='Loading CONUS ducting data…';
   }
 
   frames=ANIM_HOURS.map(h=>{const{label,offset}=frameLabel(h,era5StartMs);return{h,label,offset,points:[]};});
@@ -509,7 +509,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
 // Radius/blur tuned for 1° grid (~100 km spacing) at CONUS zoom
 const heatLayer=L.heatLayer([],{
   radius:40,blur:32,maxZoom:10,
-  gradient:{0:'transparent',0.04:'#2ea043',0.25:'#3fb950',0.50:'#d29922',0.75:'#f0883e',1.0:'#f85149'}
+  gradient:{0:'transparent',0.01:'#2ea043',0.25:'#3fb950',0.50:'#d29922',0.75:'#f0883e',1.0:'#f85149'}
 }).addTo(lmap);
 
 // Click → popup with link to site.html

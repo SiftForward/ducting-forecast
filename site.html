@@ -321,7 +321,7 @@ function interferenceRisk(ducts,profile){
     return{score:s,level:'low',description:`${ducts.length} duct(s) present but below n41 trapping threshold. Super-refractive enhancement likely.`,n41_ducts:0,best_duct:null};
   }
   const best=n41.reduce((a,b)=>a.delta_M>b.delta_M?a:b);
-  const rawScore=Math.min(40,Math.round(best.delta_M*4))+Math.min(30,Math.round(best.max_hop_km/15))+(best.duct_type==='surface'?20:10);
+  const rawScore=Math.min(60,Math.round(best.delta_M*4))+Math.min(30,Math.round(best.max_hop_km/15))+(best.duct_type==='surface'?20:10);
   const score=Math.min(100,rawScore+Math.round(srProxy*0.3));
   const level=score>=80?'severe':score>=55?'high':score>=30?'moderate':'low';
   const desc=`${best.duct_type[0].toUpperCase()+best.duct_type.slice(1)} duct `
@@ -487,7 +487,7 @@ const GRID_LATS=Array.from({length:11},(_,i)=>+(25+i*2.5).toFixed(1));
 const GRID_LONS=Array.from({length:21},(_,i)=>+(-125+i*3).toFixed(1));
 const GRID_PTS =GRID_LATS.flatMap(lat=>GRID_LONS.map(lon=>[lat,lon]));
 
-function cacheKey(date){return`kd9wxy_grid_v3_${date||'forecast'}`}
+function cacheKey(date){return`kd9wxy_grid_v4_${date||'forecast'}`}
 const CACHE_TTL=30*60*1000;
 
 function loadCache(date){
@@ -654,7 +654,7 @@ function renderHour(hour){
       properties:{lat:pt.lat,lon:pt.lon,hKey,...h}});
   }
   heatLayer=L.heatLayer(hPts,{radius:55,blur:45,maxZoom:6,max:1.0,
-    gradient:{0.0:'transparent',0.15:'#00aa44bb',0.45:'#ffcc00bb',0.7:'#ff6600cc',1.0:'#cc0000ee'}}).addTo(lmap);
+    gradient:{0.0:'transparent',0.05:'#00aa44bb',0.45:'#ffcc00bb',0.7:'#ff6600cc',1.0:'#cc0000ee'}}).addTo(lmap);
   cellLayer=L.geoJSON({type:'FeatureCollection',features:feats},{
     style:{fillOpacity:0,stroke:false},
     onEachFeature(feat,layer){layer.on('click',()=>showCellDetail(feat.properties));}
@@ -722,7 +722,7 @@ function startMapLoad(){
       gridData.push(pt);
       const h=pt.hours[String(mapHour)];
       if(h?.score>0){
-        if(!heatLayer)heatLayer=L.heatLayer([[pt.lat,pt.lon,h.score/100]],{radius:55,blur:45,maxZoom:6,max:1.0,gradient:{0.0:'transparent',0.15:'#00aa44bb',0.45:'#ffcc00bb',0.7:'#ff6600cc',1.0:'#cc0000ee'}}).addTo(lmap);
+        if(!heatLayer)heatLayer=L.heatLayer([[pt.lat,pt.lon,h.score/100]],{radius:55,blur:45,maxZoom:6,max:1.0,gradient:{0.0:'transparent',0.05:'#00aa44bb',0.45:'#ffcc00bb',0.7:'#ff6600cc',1.0:'#cc0000ee'}}).addTo(lmap);
         else heatLayer.addLatLng([pt.lat,pt.lon,h.score/100]);
       }
     }
